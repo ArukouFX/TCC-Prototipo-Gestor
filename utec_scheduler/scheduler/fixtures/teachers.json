@@ -1,0 +1,34 @@
+[
+    {
+      "model": "scheduler.teacher",
+      "pk": 1,
+      "fields": {
+        "name": "Dr. Carlos Montevideo",
+        "from_montevideo": true
+      }
+    },
+    {
+      "model": "scheduler.teacher",
+      "pk": 2,
+      "fields": {
+        "name": "Ing. Laura Pérez",
+        "from_montevideo": false
+      }
+    },
+    {
+      "model": "scheduler.teacher",
+      "pk": 3,
+      "fields": {
+        "name": "MSc. Roberto Fernández",
+        "from_montevideo": true
+      }
+    },
+    {
+      "model": "scheduler.teacher",
+      "pk": 4,
+      "fields": {
+        "name": "Lic. Ana Rodríguez",
+        "from_montevideo": false
+      }
+    }
+  ]

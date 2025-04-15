@@ -1,0 +1,62 @@
+[
+    {
+      "model": "scheduler.subject",
+      "pk": 1,
+      "fields": {
+        "name": "Física",
+        "code": "FIS101",
+        "priority": true,
+        "priority_type": "PHYSICS",
+        "requires_lab": true,
+        "hours_per_week": 6
+      }
+    },
+    {
+      "model": "scheduler.subject",
+      "pk": 2,
+      "fields": {
+        "name": "Electro Electrónica",
+        "code": "ELE202",
+        "priority": true,
+        "priority_type": "ELECTRO",
+        "requires_lab": true,
+        "hours_per_week": 5
+      }
+    },
+    {
+      "model": "scheduler.subject",
+      "pk": 3,
+      "fields": {
+        "name": "ATO",
+        "code": "ATO301",
+        "priority": true,
+        "priority_type": "ATO",
+        "requires_lab": false,
+        "hours_per_week": 4
+      }
+    },
+    {
+      "model": "scheduler.subject",
+      "pk": 4,
+      "fields": {
+        "name": "Ciencia de los materiales",
+        "code": "MAT401",
+        "priority": true,
+        "priority_type": "MATERIALS",
+        "requires_lab": true,
+        "hours_per_week": 5
+      }
+    },
+    {
+      "model": "scheduler.subject",
+      "pk": 5,
+      "fields": {
+        "name": "Programación Python",
+        "code": "PRO501",
+        "priority": false,
+        "priority_type": null,
+        "requires_lab": true,
+        "hours_per_week": 4
+      }
+    }
+  ]

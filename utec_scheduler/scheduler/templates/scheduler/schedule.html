@@ -1,0 +1,52 @@
+{% extends "scheduler/base.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="controls">
+        <button id="refresh-btn" class="btn"><i class="fas fa-sync-alt"></i> Actualizar</button>
+        <button id="new-schedule-btn" class="btn"><i class="fas fa-plus"></i> Nuevo Horario</button>
+    </div>
+
+    <div class="schedule-container">
+        <table id="schedule-table">
+            <thead>
+                <tr>
+                    <th>Hora</th>
+                    <th>Lunes</th>
+                    <th>Martes</th>
+                    <th>Miércoles</th>
+                    <th>Jueves</th>
+                    <th>Viernes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Se llenará con JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="modal-title">Nuevo Horario</h2>
+            <form id="schedule-form">
+                <input type="hidden" id="schedule-id">
+                
+                <div class="form-group">
+                    <label for="course">Curso:</label>
+                    <select id="course" required></select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject">Materia:</label>
+                    <select id="subject" required></select>
+                </div>
+                
+                <!-- Más campos según necesidad -->
+                
+                <button type="submit" class="btn">Guardar</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

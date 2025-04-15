@@ -1,0 +1,26 @@
+[
+    {
+      "model": "scheduler.course",
+      "pk": 1,
+      "fields": {
+        "name": "Licenciatura de datos e inteligencia artificial",
+        "shift": "MORNING"
+      }
+    },
+    {
+      "model": "scheduler.course",
+      "pk": 2,
+      "fields": {
+        "name": "Logística",
+        "shift": "AFTERNOON"
+      }
+    },
+    {
+      "model": "scheduler.course",
+      "pk": 3,
+      "fields": {
+        "name": "Mecatrónica",
+        "shift": "NIGHT"
+      }
+    }
+  ]

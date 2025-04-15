@@ -1,0 +1,47 @@
+[
+    {
+      "model": "scheduler.room",
+      "pk": 1,
+      "fields": {
+        "name": "Salón 101",
+        "room_type": "CLASS",
+        "capacity": 30
+      }
+    },
+    {
+      "model": "scheduler.room",
+      "pk": 2,
+      "fields": {
+        "name": "Salón 102",
+        "room_type": "CLASS",
+        "capacity": 30
+      }
+    },
+    {
+      "model": "scheduler.room",
+      "pk": 3,
+      "fields": {
+        "name": "Salón Multipropósito",
+        "room_type": "MULTI",
+        "capacity": 50
+      }
+    },
+    {
+      "model": "scheduler.room",
+      "pk": 4,
+      "fields": {
+        "name": "Laboratorio de Informática",
+        "room_type": "COMP",
+        "capacity": 20
+      }
+    },
+    {
+      "model": "scheduler.room",
+      "pk": 5,
+      "fields": {
+        "name": "Laboratorio de Logística",
+        "room_type": "LOG",
+        "capacity": 15
+      }
+    }
+  ]
