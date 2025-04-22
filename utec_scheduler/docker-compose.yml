@@ -1,36 +1,62 @@
 version: '3.8'
 
 services:
-  web:
-    build: .
+  backend:
+    build: 
+      context: .
+      dockerfile: Dockerfile
     command: sh -c "python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
     volumes:
-      - .:/app
-    ports:
-      - "8000:8000"
+      - ./:/app
     env_file:
       - .env
+    environment:
+      - DATABASE_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      - DEBUG=${DEBUG}
+    ports:
+      - "8000:8000"
     depends_on:
       db:
         condition: service_healthy
+    networks:
+      - utec-network
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./frontend/public:/usr/share/nginx/html
+      - ./frontend/nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - backend
+    networks:
+      - utec-network
     restart: unless-stopped
 
   db:
     image: postgres:13-alpine
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - .env
     environment:
-      POSTGRES_DB: utec_scheduler  # Valor directo, no variable
-      POSTGRES_USER: utec_user      # Valor directo
-      POSTGRES_PASSWORD: luisfe19   # Valor directo
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U utec_user -d utec_scheduler"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
       retries: 5
-    ports:
-      - "5432:5432"
+    networks:
+      - utec-network
     restart: unless-stopped
 
 volumes:
   postgres_data:
+
+networks:
+  utec-network:
+    driver: bridge
