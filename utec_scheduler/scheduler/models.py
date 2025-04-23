@@ -37,6 +37,7 @@ class Subject(models.Model):
     priority_type = models.CharField(max_length=10, choices=PRIORITY_SUBJECTS, null=True, blank=True)
     requires_lab = models.BooleanField(default=False)
     hours_per_week = models.IntegerField()
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='subjects')
 
 class Teacher(models.Model):
     name = models.CharField(max_length=100)

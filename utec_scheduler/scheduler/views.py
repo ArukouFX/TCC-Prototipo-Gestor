@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
+
 #from scheduler.genetic_algorithm import ScheduleGenerator
 
 from rest_framework import viewsets
@@ -7,6 +8,18 @@ from .models import Room, Course, Subject, Teacher, Schedule
 from .serializers import (RoomSerializer, CourseSerializer, 
                          SubjectSerializer, TeacherSerializer, 
                          ScheduleSerializer)
+
+# froms to fix
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .models import Schedule
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework import viewsets, status
+from .models import Schedule
+
+from utec_scheduler.genetic_algorithm import ScheduleGenerator
+
 
 class RoomViewSet(viewsets.ModelViewSet):
     queryset = Room.objects.all()
@@ -28,15 +41,61 @@ class ScheduleViewSet(viewsets.ModelViewSet):
     queryset = Schedule.objects.all()
     serializer_class = ScheduleSerializer
 
-'''def generate_schedules(request):
-    if request.method == 'POST':
+    @action(detail=False, methods=['post'])
+    def generate(self, request):
+        """
+        Genera horarios usando el algoritmo genético.
+        Endpoint: POST /api/schedules/generate/
+        """
+        try:
+            # Instancia el generador
+            generator = ScheduleGenerator()
+            
+            # Genera el mejor horario
+            best_schedule = generator.generate()
+            
+            # Limpia los horarios existentes
+            Schedule.objects.all().delete()
+            
+            # Guarda los nuevos horarios
+            created_schedules = []
+            for assignment in best_schedule:
+                schedule = Schedule.objects.create(
+                    course_id=assignment['course_id'],
+                    subject_id=assignment['subject_id'],
+                    teacher_id=assignment['teacher_id'],
+                    room_id=assignment['room_id'],
+                    day=assignment['day'],
+                    start_time=f"{assignment['start_time']}:00",
+                    end_time=f"{int(assignment['start_time'].split(':')[0]) + 2}:00"
+                )
+                created_schedules.append(schedule)
+            
+            return Response({
+                'status': 'success',
+                'message': f'Se generaron {len(created_schedules)} horarios',
+                'schedules': self.get_serializer(created_schedules, many=True).data
+            })
+            
+        except Exception as e:
+            return Response({
+                'status': 'error',
+                'message': str(e)
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def generate_schedules(request):
+    try:
+        # Instancia el generador
         generator = ScheduleGenerator()
+        
+        # Genera el mejor horario
         best_schedule = generator.generate()
         
-        # Limpiar horarios existentes
+        # Limpia los horarios existentes
         Schedule.objects.all().delete()
         
-        # Guardar el mejor horario encontrado
+        # Guarda los nuevos horarios
         for assignment in best_schedule:
             Schedule.objects.create(
                 course_id=assignment['course_id'],
@@ -44,15 +103,17 @@ class ScheduleViewSet(viewsets.ModelViewSet):
                 teacher_id=assignment['teacher_id'],
                 room_id=assignment['room_id'],
                 day=assignment['day'],
-                start_time=assignment['start_time'],
-                    end_time=calculate_end_time(assignment['start_time'], assignment['duration'])
-                )
-            
-            return JsonResponse({'status': 'success', 'schedule': best_schedule})
-        return JsonResponse({'status': 'error', 'message': 'Método no permitido'}, status=405)
-    
-    def calculate_end_time(start_time, duration):
-        """Calcula la hora de fin basada en la duración"""
-        hour = int(start_time.split(':')[0])
-        return f"{hour + duration}:00"
-'''
+                start_time=f"{assignment['start_time']}:00",
+                end_time=f"{int(assignment['start_time'].split(':')[0]) + 2}:00"
+            )
+        
+        return Response({
+            'status': 'success',
+            'message': 'Horarios generados correctamente'
+        })
+        
+    except Exception as e:
+        return Response({
+            'status': 'error',
+            'message': str(e)
+        }, status=400)

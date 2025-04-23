@@ -4,7 +4,8 @@
       "pk": 1,
       "fields": {
         "name": "Dr. Carlos Montevideo",
-        "from_montevideo": true
+        "from_montevideo": true,
+        "subjects": [1, 3]
       }
     },
     {
@@ -12,7 +13,8 @@
       "pk": 2,
       "fields": {
         "name": "Ing. Laura Pérez",
-        "from_montevideo": false
+        "from_montevideo": false,
+        "subjects": [2, 4]
       }
     },
     {
@@ -20,7 +22,8 @@
       "pk": 3,
       "fields": {
         "name": "MSc. Roberto Fernández",
-        "from_montevideo": true
+        "from_montevideo": true,
+        "subjects": [5]
       }
     },
     {
@@ -28,7 +31,8 @@
       "pk": 4,
       "fields": {
         "name": "Lic. Ana Rodríguez",
-        "from_montevideo": false
+        "from_montevideo": false,
+        "subjects": [1, 2, 4] 
       }
     }
   ]

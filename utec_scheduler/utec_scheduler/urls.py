@@ -20,6 +20,7 @@ from django.urls import path, include
 from rest_framework import routers
 from scheduler import views
 from django.views.generic import TemplateView
+from scheduler.views import generate_schedules
 
 
 router = routers.DefaultRouter()
