@@ -6,3 +6,4 @@ python-dotenv>=0.19
 djangorestframework>=3.14
 django-cors-headers>=3.14
 django-filter>=21.1
+pygad>=3.2

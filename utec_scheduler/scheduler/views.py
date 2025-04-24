@@ -52,29 +52,34 @@ class ScheduleViewSet(viewsets.ModelViewSet):
             generator = ScheduleGenerator()
             
             # Genera el mejor horario
-            best_schedule = generator.generate()
+            result = generator.generate()
+            
+            if not isinstance(result, dict) or 'assignments' not in result:
+                raise ValueError("Formato de resultado inválido")
             
             # Limpia los horarios existentes
             Schedule.objects.all().delete()
             
             # Guarda los nuevos horarios
             created_schedules = []
-            for assignment in best_schedule:
+            for assignment in result['assignments']:
                 schedule = Schedule.objects.create(
                     course_id=assignment['course_id'],
                     subject_id=assignment['subject_id'],
                     teacher_id=assignment['teacher_id'],
                     room_id=assignment['room_id'],
                     day=assignment['day'],
-                    start_time=f"{assignment['start_time']}:00",
-                    end_time=f"{int(assignment['start_time'].split(':')[0]) + 2}:00"
+                    start_time=f"{assignment['start_time']}:00" if len(assignment['start_time']) == 5 else assignment['start_time'],
+                    end_time=assignment['end_time'],
+                    duration=assignment['duration']
                 )
                 created_schedules.append(schedule)
             
             return Response({
                 'status': 'success',
                 'message': f'Se generaron {len(created_schedules)} horarios',
-                'schedules': self.get_serializer(created_schedules, many=True).data
+                'schedules': self.get_serializer(created_schedules, many=True).data,
+                'fitness': result.get('fitness')
             })
             
         except Exception as e:

@@ -60,3 +60,4 @@ class Schedule(models.Model):
     day = models.CharField(max_length=3, choices=DAYS)
     start_time = models.TimeField()
     end_time = models.TimeField()
+    duration = models.IntegerField(default=120)  # Duración en minutos, por defecto 2h

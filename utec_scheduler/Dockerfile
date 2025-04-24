@@ -1,12 +1,12 @@
 # Usa una versión específica de Python (3.9 es más estable para Django)
-FROM python:3.9-slim-buster
+FROM python:3.12-slim-bullseye
 
 # Establece el directorio de trabajo
 WORKDIR /app
 
 # Variables de entorno
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
 # Instala dependencias del sistema
 RUN apt-get update && apt-get install -y \
@@ -23,5 +23,8 @@ RUN pip install --upgrade pip && \
 # Copia el proyecto
 COPY . .
 
-# Comando para ejecutar cuando el contenedor inicie
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "utec_scheduler.wsgi:application"]
+# Da permisos de ejecución al script de inicio
+RUN chmod +x /app/start.sh
+
+# Usa el script como entrypoint
+ENTRYPOINT ["/app/start.sh"]

@@ -134,5 +134,5 @@ Proyecto académico. Uso libre para fines educativos.
 ---
 
 **Autor:**  
-Luis Fernando (aruko)  
+Luis Felipe Carballo (ArukouFX)  
 UTEC - 2025

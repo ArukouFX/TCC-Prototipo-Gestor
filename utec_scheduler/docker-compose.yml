@@ -26,17 +26,14 @@ services:
     restart: unless-stopped
 
   frontend:
-    build: ./frontend
-    ports:
-      - "8080:8080"
-    volumes:
-      - ./frontend/public:/usr/share/nginx/html
-      - ./frontend/nginx.conf:/etc/nginx/conf.d/default.conf
-    depends_on:
-      - backend
-    networks:
-      - utec-network
-    restart: unless-stopped
+      build: ./frontend-react
+      ports:
+        - "8080:8080"
+      depends_on:
+        - backend
+      networks:
+        - utec-network
+      restart: unless-stopped
 
   db:
     image: postgres:13-alpine
